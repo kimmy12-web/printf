@@ -1,1 +1,1 @@
-OUr first group project 
+Our first group project 
