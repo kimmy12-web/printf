@@ -37,7 +37,7 @@ int _printf_hexa(va_list *);
 int _printf_mini_hexa(va_list *);
 int _printf_binary(va_list *);
 int _printf_special(va_list *);
-int _printf_rot13(va_list *params);
+int print_rot(va_list arguments, char *buf, unsigned int ibuf)
 int _printf_reverse(va_list *);
 
 #endif /*MAIN_H*/
