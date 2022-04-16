@@ -1,44 +1,36 @@
 #include "main.h"
-
 /**
- * print_rot - writes the str in ROT13
- * @arguments: input string
- * @buf: buffer pointer
- * @ibuf: index for buffer pointer
- * Return: number of chars printed.
+ * _printf_rot13 - converts to rot13
+ * @params: The name for va_list
+ *
+ * Return: String Length.
  */
-
-int print_rot(va_list arguments, char *buf, unsigned int ibuf)
+int _printf_rot13(va_list *params)
 {
-	char alf[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-	char rot[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
-	char *str;
-	unsigned int i, j, k;
-	char nill[] = "(avyy)";
+	int length = 0, i = 0, k;
+	char from[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	char to[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
+	char *str = va_arg(*params, char *);
 
-	str = va_arg(arguments, char *);
+	while (str[length])
+		length++;
 	if (str == NULL)
 	{
-		for (i = 0; nill[i]; i++)
-			ibuf = handl_buf(buf, nill[i], ibuf);
-		return (6);
+		str = "(null)";
 	}
-	for (i = 0; str[i]; i++)
+	for (i = 0; str[i] != '\0' ; i++)
 	{
-		for (k = j = 0; alf[j]; j++)
+		k = 0;
+		while (str[k])
 		{
-			if (str[i] == alf[j])
+			if (str[i] == from[k])
 			{
-				k = 1;
-				ibuf = handl_buf(buf, rot[j], ibuf);
+				_putchar(to[k]);
 				break;
 			}
+			k++;
 		}
-		if (k == 0)
-			ibuf = handl_buf(buf, str[i], ibuf);
 	}
-	
-return (i);
+
+	return (length);
 }
-
-
