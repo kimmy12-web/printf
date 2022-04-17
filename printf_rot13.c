@@ -1,43 +1,61 @@
 #include "main.h"
 
 /**
- * print_rot - writes the str in ROT13
- * @arguments: input string
- * @buf: buffer pointer
- * @ibuf: index for buffer pointer
- * Return: number of chars printed.
+ * print_rot13 - encodes a string using rot13 encryption
+ * @s: string to be encoded
+ *
+ * Return: number of chars printed
  */
-
-int print_rot(va_list arguments, char *buf, unsigned int ibuf)
+int print_rot13(char *s)
 {
-	char alf[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-	char rot[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
-	char *str;
-	unsigned int i, j, k;
-	char nill[] = "(avyy)";
+	char nor[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+		      'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
+		      'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+		      'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y',
+		      'Z', ' '};
+	char rot[] = {'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
+		      'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+		      'm', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y',
+		      'Z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+		      'M', ' '};
+	int count, len, count2 = 0, chars_printed = 0;
+	char now, *rot13d;
 
-	str = va_arg(arguments, char *);
-	if (str == NULL)
+	len = 0;
+	while (*(s + len))
+		len++;
+	rot13d = malloc(sizeof(char) * len);
+	if (rot13d == NULL)
 	{
-		for (i = 0; nill[i]; i++)
-			ibuf = handl_buf(buf, nill[i], ibuf);
-		return (6);
+		free(rot13d);
+		return (0);
 	}
-	for (i = 0; str[i]; i++)
+	len = 0;
+	while (*(s + len))
 	{
-		for (k = j = 0; alf[j]; j++)
+		now = *(s + len);
+		for (count = 0; count < 53; count++)
 		{
-			if (str[i] == alf[j])
+			if (now == nor[count])
 			{
-				k = 1;
-				ibuf = handl_buf(buf, rot[j], ibuf);
+				*(rot13d + len) = rot[count];
+				count2 = count;
 				break;
 			}
 		}
-		if (k == 0)
-			ibuf = handl_buf(buf, str[i], ibuf);
+		if (*(rot13d + len) != rot[count2])
+			*(rot13d + len) = now;
+		if (*(rot13d + len) == '\\')
+		{
+			*(rot13d + len + 1) = *(s + len + 1);
+			len++;
+		}
+		len++;
 	}
-	return (i);
+	*(rot13d + len) = '\0';
+	chars_printed = print_string(rot13d);
+	free(rot13d);
+	return (chars_printed);
 }
 
 
