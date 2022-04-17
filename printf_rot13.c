@@ -1,36 +1,36 @@
 #include "main.h"
-
 /**
- * _rot13 - prints rot13 version
- * @rot: list being passed
- * Return: count of chars
+ * _printf_rot13 - converts to rot13
+ * @params: The name for va_list
+ *
+ * Return: String Length.
  */
-int _rot13(va_list rot)
+int _printf_rot13(va_list *params)
 {
-	int a, count;
-	char *s;
+	int length = 0, i = 0, k;
+	char from[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	char to[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
+	char *str = va_arg(*params, char *);
 
-	a = count = 0;
-	s = va_arg(rot, char *);
-
-	if (s == NULL)
-		return (-1);
-	while (s[a] != '\0')
+	while (str[length])
+		length++;
+	if (str == NULL)
 	{
-		if ((s[a] >= 'a' && s[a] <= 'z') ||
-		    (s[a] >= 'A' && s[a] <= 'Z'))
-		{
-			if ((s[a] >= 'n' && s[a] <= 'z') ||
-			    (s[a] >= 'N' && s[a] <= 'Z'))
-				count = count + _putchar(s[a] - 13);
-			else
-				count = count + _putchar(s[a] + 13);
-		}
-		else
-			count = count + _putchar(s[a]);
-		a++;
+		str = "(null)";
 	}
-	return (count);
+	for (i = 0; str[i] != '\0' ; i++)
+	{
+		k = 0;
+		while (str[k])
+		{
+			if (str[i] == from[k])
+			{
+				_putchar(to[k]);
+				break;
+			}
+			k++;
+		}
+	}
+
+	return (length);
 }
-
-
