@@ -1,59 +1,52 @@
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "main.h"
-
+#include <stddef.h>
 /**
- * _printf - function that produces output according to a format.
- * @format: pointer to argument giver to printf
- * Return: len of data give to printf
+ * _printf - recreates the printf function
+ * @format: string with format specifier
+ * Return: number of characters printed
  */
-int _printf(const char *format, ...)/*"Hello: %i, %c, %s", 45, H, world*/
+int _printf(const char *format, ...)
 {
-	va_list argument;
-	int i = 0, state = 1, len = 0;
-	printer_t select_func;
-
-	if ((format == NULL) || (format[0] == '%' && !format[1]))
+	if (format != NULL)
 	{
-		return (-1);
-	}
+		int count = 0, i;
+		int (*m)(va_list);
+		va_list args;
 
-	va_start(argument, format);
-
-	while (format[i] != '\0')
-	{
-		if (format[i] != '%')
+		va_start(args, format);
+		i = 0;
+		if (format[0] == '%' && format[1] == '\0')
+			return (-1);
+		while (format != NULL && format[i] != '\0')
 		{
-			if (state)
+			if (format[i] == '%')
 			{
-			len += _putchar(format[i]);
-			}
-			else
-			{
-				select_func = choose_func(format[i]);
-				if (select_func.format != '*')
+				if (format[i + 1] == '%')
 				{
-					len += select_func.func(&argument);
+					count += _putchar(format[i]);
+					i += 2;
 				}
 				else
 				{
-					len += _putchar('%') + _putchar(format[i]);
+					m = get_func(format[i + 1]);
+					if (m)
+						count += m(args);
+					else
+						count = _putchar(format[i]) + _putchar(format[i + 1]);
+					i += 2;
 				}
-				state = 1;
-			}
-		}
-		else
-		{
-			if (state)
-			{
-				state = 0;
 			}
 			else
 			{
-				len += _putchar(format[i]);
-				state = 1;
+				count += _putchar(format[i]);
+				i++;
 			}
 		}
-		i++;
+		va_end(args);
+		return (count);
 	}
-	va_end(argument);
-	return (len);
+	return (-1);
 }
