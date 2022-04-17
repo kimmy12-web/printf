@@ -30,4 +30,7 @@ char *reverse(char *s);
 char *_cpy(char *dest, char *src, unsigned int n);
 int print_to_bin(va_list list);
 
+
+int _printf_rot13(va_list *params);
+
 #endif
