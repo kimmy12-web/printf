@@ -28,6 +28,7 @@ int _printf(const char *format, ...);
 
 /*New prototypes for printf acording a format*/
 int _printf_char(va_list *);
+int charsFormats(const char *format, va_list args);
 int _printf_string(va_list *);
 int _printf_int(va_list *);
 int _printf_unsigned_int(va_list *);
