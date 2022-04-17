@@ -1,59 +1,75 @@
 #include "main.h"
 
+
 /**
- * _printf - function that produces output according to a format.
- * @format: pointer to argument giver to printf
- * Return: len of data give to printf
+ * _printf - Parameters for printf
+ * @format: list of arguments
+ * Return: Printed thing
  */
-int _printf(const char *format, ...)/*"Hello: %i, %c, %s", 45, H, world*/
+
+int _printf(const char *format, ...)
 {
-	va_list argument;
-	int i = 0, state = 1, len = 0;
-	printer_t select_func;
+	int chars;
+	va_list list;
 
-	if ((format == NULL) || (format[0] == '%' && !format[1]))
-	{
+	va_start(list, format);
+	if (format == NULL)
 		return (-1);
-	}
 
-	va_start(argument, format);
+	chars = charsFormats(format, list);
 
-	while (format[i] != '\0')
+	va_end(list);
+	return (chars);
+}
+
+/**
+ * charsFormats - paremters printf
+ * @format: list of arguments
+ * @args: listing
+ * Return: value of print
+ */
+
+int charsFormats(const char *format, va_list args)
+{
+	int a, b, chars, r_val;
+
+	fmtsSpefier f_list[] = {{"c", _char}, {"s", _string},
+				{"%", _percent}, {"d", _integer}, {"i", _integer}, {NULL, NULL}
+	};
+	chars = 0;
+	for (a = 0; format[a] != '\0'; a++)
 	{
-		if (format[i] != '%')
+		if (format[a] == '%')
 		{
-			if (state)
+			for (b = 0; f_list[b].sym != NULL; b++)
 			{
-			len += _putchar(format[i]);
-			}
-			else
-			{
-				select_func = choose_func(format[i]);
-				if (select_func.format != '*')
+				if (format[a + 1] == f_list[b].sym[0])
 				{
-					len += select_func.func(&argument);
+					r_val = f_list[b].f(args);
+					if (r_val == -1)
+						return (-1);
+					chars += r_val;
+					break;
 				}
+			}
+			if (f_list[b].sym == NULL && format[a + 1] != ' ')
+			{
+				if (format[a + 1] != '\0')
+				{
+					_putchar(format[a]);
+					_putchar(format[a + 1]);
+					chars = chars + 2;
+}
 				else
-				{
-					len += _putchar('%') + _putchar(format[i]);
-				}
-				state = 1;
+					return (-1);
 			}
+		a += 1;
 		}
 		else
 		{
-			if (state)
-			{
-				state = 0;
-			}
-			else
-			{
-				len += _putchar(format[i]);
-				state = 1;
-			}
+			_putchar(format[a]);
+			chars++;
 		}
-		i++;
 	}
-	va_end(argument);
-	return (len);
+	return (chars);
 }
