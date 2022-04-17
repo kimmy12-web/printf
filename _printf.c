@@ -1,59 +1,75 @@
 #include "main.h"
-
 /**
- * _printf - function that produces output according to a format.
- * @format: pointer to argument giver to printf
- * Return: len of data give to printf
- */
-int _printf(const char *format, ...)/*"Hello: %i, %c, %s", 45, H, world*/
+  * print_fmtd - take string and print formatted string
+  * @format: whole str
+  * @list: letter specifiers ... d
+  * @ap: all args passed
+  *
+  * Return: int
+  */
+int print_fmtd(const char *format, fts list[], va_list ap)
 {
-	va_list argument;
-	int i = 0, state = 1, len = 0;
-	printer_t select_func;
+	int i, j, argvs, total = 0;
 
-	if ((format == NULL) || (format[0] == '%' && !format[1]))
+	for (i = 0; format[i] != '\0'; i++)
 	{
-		return (-1);
-	}
-
-	va_start(argument, format);
-
-	while (format[i] != '\0')
-	{
-		if (format[i] != '%')
+		if (format[i] == '%')
 		{
-			if (state)
+			for (j = 0; list[j].flag != NULL; j++)
 			{
-			len += _putchar(format[i]);
-			}
-			else
-			{
-				select_func = choose_func(format[i]);
-				if (select_func.format != '*')
+				if (format[i + 1] == list[j].flag[0])
 				{
-					len += select_func.func(&argument);
+					argvs = list[j].fptr(ap);
+					if (argvs == -1)
+						return (-1);
+					total += argvs;
+					break;
+				}
+			}
+			if (list[j].flag == NULL && format[i + 1] != ' ')
+			{
+				if (format[i + 1] != '\0')
+				{
+					_write_ch(format[i]);
+					_write_ch(format[i + 1]);
+					total += 2;
 				}
 				else
-				{
-					len += _putchar('%') + _putchar(format[i]);
-				}
-				state = 1;
+					return (-1);
 			}
+			i += 1;
 		}
 		else
 		{
-			if (state)
-			{
-				state = 0;
-			}
-			else
-			{
-				len += _putchar(format[i]);
-				state = 1;
-			}
+			_write_ch(format[i]);
+			total++;
 		}
-		i++;
 	}
-	va_end(argument);
-	return (len);
+	return (total);
+}
+/**
+  * _printf - produce output according to format
+  * @format: char str
+  *
+  * Return: int
+  */
+int _printf(const char *format, ...)
+{
+	int total;
+
+	fts list[] = {
+		{"c", print_ch},
+		{"s", print_str},
+		{"%", print_pcnt},
+		{NULL, NULL}
+	};
+
+	va_list ap;
+
+	if (format == NULL)
+		return (-1);
+	va_start(ap, format);
+	total = print_fmtd(format, list, ap);
+	va_end(ap);
+	return (total);
 }
