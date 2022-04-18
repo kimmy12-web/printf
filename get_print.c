@@ -36,4 +36,10 @@ int (*get_print(char s))(va_list, flags_t *)
 		if (func_arr[i].c == s)
 			return (func_arr[i].f);
 	return (NULL);
+	
+	if (c == '%')
+	{
+		_putchar('%');
+		return (1);
+	}
 }

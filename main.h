@@ -48,6 +48,9 @@ char *convert(unsigned long int num, int base, int lowercase);
 /* _printf */
 int _printf(const char *format, ...);
 
+int _printf_unsigned_int(va_list *arg);
+int putchar_unsigned_int(unsigned int number, int len);
+
 /* get_print */
 int (*get_print(char s))(va_list, flags_t *);
 
