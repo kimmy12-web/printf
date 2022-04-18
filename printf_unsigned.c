@@ -1,6 +1,6 @@
 #include "main.h"
 /**
- * putchar_unsigned_int - putchar a unsigned number
+ * putchar_unsigned_int - putchar an unsigned number
  * @number: Number to be printed
  * @len: digits to be printed
  * Return: length
@@ -15,7 +15,7 @@ int putchar_unsigned_int(unsigned int number, int len)
 	return (len);
 }
 /**
- * _printf_unsigned_int - write a unsigned integer number
+ * _printf_unsigned_int - write an unsigned integer number
  * @arg: va_list of arguments
  * Return: length of unsigend number
  */
