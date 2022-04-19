@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * print_char - prints character
+ * print_char - prints a character
  * @ap: argument pointer
  * @params: the parameters struct
  *
@@ -22,7 +22,7 @@ int print_char(va_list ap, params_t *params)
 }
 
 /**
- * print_int - prints integer
+ * print_int - prints an integer
  * @ap: argument pointer
  * @params: the parameters struct
  *
@@ -42,7 +42,7 @@ int print_int(va_list ap, params_t *params)
 }
 
 /**
- * print_string - prints string
+ * print_string - prints a string
  * @ap: argument pointer
  * @params: the parameters struct
  *
