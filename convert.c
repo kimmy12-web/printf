@@ -39,7 +39,7 @@ char *convert(long int num, int base, int flags, params_t *params)
 }
 
 /**
- * print_unsigned - prints unsigned integer numbers
+ * print_unsigned - prints an unsigned integer number
  * @ap: argument pointer
  * @params: the parameters struct
  *
@@ -62,7 +62,7 @@ int print_unsigned(va_list ap, params_t *params)
 
 
 /**
- * print_address - prints address
+ * print_address - prints addresses
  * @ap: argument pointer
  * @params: the parameters struct
  *
