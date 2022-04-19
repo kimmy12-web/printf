@@ -19,7 +19,7 @@ int (*get_print(char s))(va_list, flags_t *)
 		{'d', print_int},
 		{'u', print_unsigned},
 		{'x', print_hex},
-		{'X', print_hex_big},
+		{'X', print_HEX},
 		{'b', print_binary},
 		{'o', print_octal},
 		{'R', print_rot13},
@@ -37,9 +37,4 @@ int (*get_print(char s))(va_list, flags_t *)
 			return (func_arr[i].f);
 	return (NULL);
 	
-	if (c == '%')
-	{
-		_putchar('%');
-		return (1);
-	}
 }

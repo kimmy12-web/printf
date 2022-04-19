@@ -1,84 +1,106 @@
 #include "main.h"
 
 /**
- * print_hex - prints a number in hexadecimal base,
- * in lowercase
- * @l: va_list arguments from _printf
- * @f: pointer to the struct flags that determines
- * if a flag is passed to _printf
- * Description: the function calls convert() which in turns converts the input
- * number into the correct base and returns it as a string
- * Return: the number of char printed
+ * print_hex - prints unsigned hex numbers in lowercase
+ * @ap: the argument pointer
+ * @params: the parameters struct
+ *
+ * Return: bytes printed
  */
-int print_hex(va_list l, flags_t *f)
+int print_hex(va_list ap, params_t *params)
 {
-	unsigned int num = va_arg(l, unsigned int);
-	char *str = convert(num, 16, 1);
-	int count = 0;
+	unsigned long l;
+	int c = 0;
+	char *str;
 
-	if (f->hash == 1 && str[0] != '0')
-		count += _puts("0x");
-	count += _puts(str);
-	return (count);
+	if (params->l_modifier)
+		l = (unsigned long)va_arg(ap, unsigned long);
+	else if (params->h_modifier)
+		l = (unsigned short int)va_arg(ap, unsigned int);
+	else
+		l = (unsigned int)va_arg(ap, unsigned int);
+
+	str = convert(l, 16, CONVERT_UNSIGNED | CONVERT_LOWERCASE, params);
+	if (params->hashtag_flag && l)
+	{
+		*--str = 'x';
+		*--str = '0';
+	}
+	params->unsign = 1;
+	return (c += print_number(str, params));
 }
 
 /**
- * print_hex_big - prints a number in hexadecimal base,
- * in uppercase
- * @l: va_list arguments from _printf
- * @f: pointer to the struct that determines
- * if a flag is passed to _printf
- * Description: the function calls convert() which in turns converts the input
- * number into the correct base and returns it as a string
- * Return: the number of char printed
+ * print_HEX - prints unsigned hex numbers in uppercase
+ * @ap: the argument pointer
+ * @params: the parameters struct
+ *
+ * Return: bytes printed
  */
-int print_hex_big(va_list l, flags_t *f)
+int print_HEX(va_list ap, params_t *params)
 {
-	unsigned int num = va_arg(l, unsigned int);
-	char *str = convert(num, 16, 0);
-	int count = 0;
+	unsigned long l;
+	int c = 0;
+	char *str;
 
-	if (f->hash == 1 && str[0] != '0')
-		count += _puts("0X");
-	count += _puts(str);
-	return (count);
+	if (params->l_modifier)
+		l = (unsigned long)va_arg(ap, unsigned long);
+	else if (params->h_modifier)
+		l = (unsigned short int)va_arg(ap, unsigned int);
+	else
+		l = (unsigned int)va_arg(ap, unsigned int);
+
+	str = convert(l, 16, CONVERT_UNSIGNED, params);
+	if (params->hashtag_flag && l)
+	{
+		*--str = 'X';
+		*--str = '0';
+	}
+	params->unsign = 1;
+	return (c += print_number(str, params));
+}
+/**
+ * print_binary - prints unsigned binary number
+ * @ap: the argument pointer
+ * @params: the parameters struct
+ *
+ * Return: bytes printed
+ */
+int print_binary(va_list ap, params_t *params)
+{
+	unsigned int n = va_arg(ap, unsigned int);
+	char *str = convert(n, 2, CONVERT_UNSIGNED, params);
+	int c = 0;
+
+	if (params->hashtag_flag && n)
+		*--str = '0';
+	params->unsign = 1;
+	return (c += print_number(str, params));
 }
 
 /**
- * print_binary - prints a number in base 2
- * @l: va_list arguments from _printf
- * @f: pointer to the struct that determines
- * if a flag is passed to _printf
- * Description: the function calls convert() which in turns converts the input
- * number into the correct base and returns it as a string
- * Return: the number of char printed
+ * print_octal - prints unsigned octal numbers
+ * @ap: the argument pointer
+ * @params: the parameters struct
+ *
+ * Return: bytes printed
  */
-int print_binary(va_list l, flags_t *f)
+int print_octal(va_list ap, params_t *params)
 {
-	unsigned int num = va_arg(l, unsigned int);
-	char *str = convert(num, 2, 0);
+	unsigned long l;
+	char *str;
+	int c = 0;
 
-	(void)f;
-	return (_puts(str));
-}
+	if (params->l_modifier)
+		l = (unsigned long)va_arg(ap, unsigned long);
+	else if (params->h_modifier)
+		l = (unsigned short int)va_arg(ap, unsigned int);
+	else
+		l = (unsigned int)va_arg(ap, unsigned int);
+	str = convert(l, 8, CONVERT_UNSIGNED, params);
 
-/**
- * print_octal - prints a number in base 8
- * @l: va_list arguments from _printf
- * @f: pointer to the struct that determines
- * if a flag is passed to _printf
- * Description: the function calls convert() which in turns converts the input
- * number into the correct base and returns it as a string
- * Return: the number of char printed
- */
-int print_octal(va_list l, flags_t *f)
-{
-	unsigned int num = va_arg(l, unsigned int);
-	char *str = convert(num, 8, 0);
-	int count = 0;
-
-	if (f->hash == 1 && str[0] != '0')
-		count += _putchar('0');
-	count += _puts(str);
-	return (count);
+	if (params->hashtag_flag && l)
+		*--str = '0';
+	params->unsign = 1;
+	return (c += print_number(str, params));
 }
