@@ -60,7 +60,7 @@ int print_HEX(va_list ap, params_t *params)
 	return (c += print_number(str, params));
 }
 /**
- * print_binary - prints unsigned binary number
+ * print_binary - prints an unsigned binary number
  * @ap: the argument pointer
  * @params: the parameters struct
  *
@@ -79,7 +79,7 @@ int print_binary(va_list ap, params_t *params)
 }
 
 /**
- * print_octal - prints unsigned octal numbers
+ * print_octal - prints an unsigned octal number
  * @ap: the argument pointer
  * @params: the parameters struct
  *
