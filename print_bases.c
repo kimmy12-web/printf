@@ -1,13 +1,11 @@
 #include "main.h"
 
 /**
-<<<<<<< HEAD
  * print_hex - prints unsigned hex numbers in lowercase
  * @ap: the argument pointer
  * @params: the parameters struct
  *
  * Return: bytes printed
-=======
  * print_hex - prints a number in hexadecimal base(16),
  * in lowercase
  * @l: va_list arguments from _printf
@@ -16,7 +14,6 @@
  * Description: the function calls convert() which in turns converts the input
  * number into the correct base and returns it as a string
  * Return: the number of char printed
->>>>>>> bcabb1049c4c9e6d95a32ef1073787531d1a4e5e
  */
 int print_hex(va_list ap, params_t *params)
 {
